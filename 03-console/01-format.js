@@ -1,5 +1,6 @@
 #!/usr/bin/node
 const user = {
+  
   Name:'吴金雅',
   Age:20,
   QQ:'2601519403'
