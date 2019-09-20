@@ -8,6 +8,6 @@ const user = {
 
 const log = console.log;
 
-log('Name:%s',user.Name);
-log('Age:%d',user.Age);
-log('WangDing Info:%j',user);
+log('Name:%s',user.Name);//字符串类型
+log('Age:%d',user.Age);//整数类型
+log('WangDing Info:%j',user);//对象类型
