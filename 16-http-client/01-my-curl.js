@@ -1,7 +1,11 @@
 #!/usr/bin/node
+const addr = process.argv[2] || 'http://sample.wangding.in/web/one-div.html',
+      url = require('url');
 
-const http = require('http'),
-      addr = process.argv[2] || 'http://sample.wangding.in/web/one-div.html';
+var protocol = url.parse(addr).protocol;
+console.log(protocol);
+
+const http = (protocol === 'http')? require('http') : require('https');
 
 http.get(addr,function(res){
   //print start line
