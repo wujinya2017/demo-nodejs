@@ -1,0 +1,14 @@
+{
+  "name": "10-file-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "01-my-cat-async.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "titbit": "^4.1.0"
+  }
+}

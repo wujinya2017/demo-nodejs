@@ -10,4 +10,4 @@ process.on('SIGTSTP',()=>{
   console.log('you have pressed Ctrl+Z');
 });
 
-process.stdin.resume();
+process.stdin.resume();//输入流模式默认关闭，需要resume开启
