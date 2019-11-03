@@ -1,63 +1,90 @@
 #!/usr/bin/node
 
-const http = require('http'),
-      fs   = require('fs'),
-      qs   = require('querystring');
+const http = require("http");
+const fs = require("fs");
+const url = require('url');
+const assert = require('assert');
+//const text = require('a.txt');
 
-var items = [];
 
-http.createServer(function(req, res) {
-  if(req.url != '/') { return err(res); }
+var userList = [
+  {username: "admin", pwd: "admin"}
+];
 
-  console.log(req.headers);
-  console.log('');
+http.createServer((req,res)=>{
+  var path = url.parse(req.url).pathname;
+  var path1 = path.split('/');
+  var path2 = path1.slice(2);
+  var path3 = '../'+path2.join('/');
+  var dirpath = __dirname+path;
+  var dirpath1 = dirpath.split('.')[1];
 
-  switch(req.method) {
-    case 'GET':
-      show(res);
+  switch(dirpath1){
+    case 'css':
+      var data = fs.readFileSync(path3);
+      res.writeHead(200,{'Content-type':'text/css;charset=UTF-8'});
+      res.end(data);
+     
       break;
-
-    case 'POST':
-      add(req, res);
+    case 'jpeg':
+      var data = fs.readFileSync(path3);
+      res.writeHead(200,{'Content-type':'image/jpeg;charset=UTF-8'});
+      res.end(data);
       break;
-
+    case 'jpg':
+      var data = fs.readFileSync(path3);
+      res.writeHead(200,{'Content-type':'application/x-jpg;charset=UTF-8'});
+      res.end(data);
+      break;
+    case 'js':
+      var data = fs.readFileSync(path3);
+      res.writeHead(200,{'Content-type':'application/x-javascript;charset=UTF-8'});
+      res.end(data);
+      break;
     default:
-      err(res);
       break;
   }
+  if(req.url =='/list/'){
+   fs.readFile("../chapterList.html",function(err,data){
+      res.writeHead(200,{"Content-type":"text/html;charset=UTF-8"});
+      res.end(data);
+   });
+  }else if (req.url == "/login/"){
+    fs.readFile("../login.html",function(err,data){
+      res.writeHead(200,{"Content-type":"text/html;charset=UTF-8"});
+      res.end(data);   
+    
+    });
+  }else if (req.url == "/listmanager/"){
+    fs.readFile("../list.html",function(err,data){
+      res.writeHead(200,{"Content-type":"text/html;charset=UTF-8"});
+      res.end(data);
+    });
+  }else if (req.url == "/addChapter/"){
+    fs.readFile("../addChapter.html",function(err,data){
+      res.writeHead(200,{"Content-type":"text/html;charset=UTF-8"});
+      res.end(data);
+    });
+  }else{
+    fs.readFile('../.'+req.url,function(err,data){
+        res.end(data);
+    });
+  }
+ 
+
 }).listen(8080);
 
-function err(res) {
-  var msg = 'Not found';
-  res.writeHead(404, {
-    'Content-Length': msg.length,
-    'Content-Type': 'text/plain'
-  });
-  res.end(msg);
+function password(req,res){
+  var postdata = '';
+  req.on('data',(data)=>{
+    postdata += data;
+    console.log(postdata);
+    postdata = qs.parse(postdata);
+  })
+  req.on('end',()=>{
+    if(postdata == 'wujinya'){
+      console.log(123);
+    }
+  })
 }
 
-function show(res) {
-  var html = fs.readFileSync('./a.html').toString('utf8'),
-      items_html = items.map(function(item) {return '<li>' + item + '</li>';}).join('\n');
-
-  html = html.replace('%', items_html);
-  res.writeHead(200, {
-    'Content-Type': 'text/html',
-    'Content-Length': Buffer.byteLength(html),
-    'Access-Control-Allow-Origin': '*'
-  });
-
-  res.end(html);
-}
-
-function add(req, res) {
-  var body = '';
-
-  req.on('data', function(chunk) { body += chunk; });
-  req.on('end', function() {
-    var item = qs.parse(body).item;
-    if(item !== '') {  items.push(item);  }
-
-    show(res);
-  });
-}
