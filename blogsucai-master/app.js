@@ -64,6 +64,8 @@ http.createServer((req,res)=>{
                   res.end(data);
                       
     });
+  }else if(req.url === '/detail?chapterId=1'){
+    res.end('hello world')
   }else{
     fs.readFile("../."+req.url,function(err,data){
     res.end(data);            
