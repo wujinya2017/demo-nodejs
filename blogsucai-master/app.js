@@ -4,6 +4,7 @@ const http = require("http");
       qs=require('querystring');
 
 //var chapterList = JSON.parse(fs.readFileSync('./js/data.js','utf8'));
+var userList = [{username: "admin", pwd: "admin"}];
 
 http.createServer((req,res)=>{
   var path = url.parse(req.url).pathname;
@@ -57,7 +58,7 @@ http.createServer((req,res)=>{
             res.end(data);
                       
     });
-  }else if (req.url == "/addChapter"){
+  }else if (req.url == "/addChapter/"){
     fs.readFile("./addChapter.html",function(err,data){
             res.writeHead(200,{"Content-type":"text/html;charset=UTF-8"});
                   res.end(data);
@@ -68,4 +69,23 @@ http.createServer((req,res)=>{
     res.end(data);            
     });     
   }
+  var file = '';
+  if(req.url === '/login/' && req.method === 'POST'){
+    req.on('data',(data)=>{
+      file += data;
+    });
+    req.on('end',()=>{
+      file = JSON.parse(file);
+      userList.forEach((userlist)=>{
+        if(userlist.username === file.username && userlist.pwd === file.pwd){
+            res.statusCode = 200;
+            res.end('OK');                         
+        }else{
+            res.statusCode = 404;
+            res.end('no');                         
+        }
+      })
+    })
+  }
+
 }).listen(8080);

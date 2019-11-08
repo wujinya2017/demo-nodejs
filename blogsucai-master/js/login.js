@@ -8,7 +8,7 @@ window.onload=function(){
         arr.username = username.value;
         arr.pwd = pwd.value;
         arr = JSON.stringify(arr)
-        fetch('http://192.168.58.144:8080/login/',
+        fetch('http://192.168.16.144:8080/login/',
             {method:'POST',
             body:arr,
           headers:new Headers({
@@ -21,9 +21,9 @@ window.onload=function(){
             //return res;
           
             if(res.status === 200){
-              window.location = 'http://192.168.58.144:8080/addChapter/'
+              window.location = 'http://192.168.16.144:8080/addChapter/'
             }else{
-              window.location = 'http://192.168.58.144:8080/login/'
+              window.location = 'http://192.168.16.144:8080/login/'
             }
             
           })
