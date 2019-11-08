@@ -3,6 +3,8 @@ const http = require("http");
       url = require("url"),
       qs=require('querystring');
 
+//var chapterList = JSON.parse(fs.readFileSync('./js/data.js','utf8'));
+
 http.createServer((req,res)=>{
   var path = url.parse(req.url).pathname;
   var path1 = path.split('/');
@@ -61,22 +63,7 @@ http.createServer((req,res)=>{
                   res.end(data);
                       
     });
-  }else if(req.url == "/detail?chapterId=1"){
-     var data = fs.readFileSync("./chapter.html");
-     res.writeHead(200,{"Content-type":"text/html;charset=UTF-8"});
-     res.end(data);    
-  }/*else if(req.url == "/detail?chapterId=2"){
-     var body = JSON.stringify(chapterList[1]);
-     res.writeHead(200, {
-      'Content-Length': Buffer.byteLength(body),
-      'Content-Type': 'text/plain; charset="utf-8"',
-      'Access-Control-Allow-Origin': '*'
-     });
-    res.end(body);
-    var data = fs.readFileSync("./chapter.html");
-    res.writeHead(200,{"Content-type":"text/html;charset=UTF-8"});
-    res.end(data);          
-  }*/else{
+  }else{
     fs.readFile("../."+req.url,function(err,data){
     res.end(data);            
     });     
