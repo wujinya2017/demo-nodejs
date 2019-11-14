@@ -20,12 +20,12 @@ router.get('/home', function(req, res,next) {
 });
 
 router.get('/add',function(req,res){
-    var bb = JSON.stringify(chapterList);
+    var data = JSON.stringify(chapterList);
     res.writeHead(200, {
-        'Content-Length': Buffer.byteLength(bb),
+        'Content-Length': Buffer.byteLength(data),
         'Content-Type': 'text/plain;charset="utf-8"'
     })
-  res.end(bb)
+  res.end(data)
 })
 
 module.exports = router;

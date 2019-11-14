@@ -41,7 +41,7 @@
     $(document).ready(function() {
         var search = window.location.search;
         var chapterId = search.substr(search.indexOf("=") + 1);
-        $.get("http://localhost:8084/getDetail?chapterId=" + chapterId, function(data) {
+        $.get("http://192.168.16.144:8080/getDetail?chapterId=" + chapterId, function(data) {
             var dataObj = JSON.parse(data);
             $("#title").html(dataObj[0]["chapterName"]);
             $("#publish").html(dataObj[0]["publishTimer"]);

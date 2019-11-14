@@ -177,11 +177,12 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
     function showList() {
-        window.location = "http://localhost:8083/listmanager/"
+        window.location = "http://192.168.16.144:8080/listmanager/"
     }
+ 
     $("#sub").click(function() {
-        $.post("http://localhost:8083/add", {"title": $("#title").val(), "content": $("#ct").html()}, function(data) {
-            window.location = "http://localhost:8083/listmanager/"
+        $.post("/add", {"title": $("#title").val(), "content": $("#ct").html()}, function(data) {
+            window.location = "http://192.168.16.144:8080/listmanager/"
         })
     })
 </script>

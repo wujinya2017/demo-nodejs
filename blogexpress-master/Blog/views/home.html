@@ -204,7 +204,7 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
    $(document).ready(function() {
-        $.get("http://localhost:3000/add", function(data) {
+        $.get("http://192.168.16.144:8080/add", function(data) {
             var data=JSON.parse(data);
             var str;  
             data.forEach((e,idx) => {

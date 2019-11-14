@@ -3,8 +3,10 @@ const http = require("http");
       url = require("url"),
       qs=require('querystring');
 
-//var chapterList = JSON.parse(fs.readFileSync('./js/data.js','utf8'));
+var chapterList = JSON.parse(fs.readFileSync('./js/data.js','utf8'));
+
 var userList = [{username: "admin", pwd: "admin"}];
+var item = '';
 
 http.createServer((req,res)=>{
   var path = url.parse(req.url).pathname;
@@ -54,18 +56,38 @@ http.createServer((req,res)=>{
     });
   }else if(req.url == '/listmanager/') {
     fs.readFile("./list.html",function(err,data){
-            res.writeHead(200,{"Content-type":"text/html;charset=UTF-8"});
-            res.end(data);
-                      
+    res.writeHead(200,{"Content-type":"text/html;charset=UTF-8"});
+    res.end(data);            
     });
   }else if (req.url == "/addChapter/"){
-    fs.readFile("./addChapter.html",function(err,data){
-            res.writeHead(200,{"Content-type":"text/html;charset=UTF-8"});
-                  res.end(data);
-                      
-    });
-  }else if(req.url === '/detail?chapterId=1'){
-    res.end('hello world')
+
+    var data = fs.readFileSync("./addChapter.html","utf-8");
+    res.writeHead(200,{"Content-type":"text/html;charset=UTF-8"});    
+    if(req.method == "POST"){
+      req.on('data',function(data){
+        item += data;                    
+      })
+      return;                         
+    }
+    res.end(data);
+  }else if(req.url === '/detail?chapterId=1' && req.method == 'GET'){
+    
+    res.end(JSON.stringify(chapterList[0].chapterId));
+  }else if(req.url == '/add'){
+    var data = fs.readFileSync("./addChapter.html","utf8");
+    res.writeHead(200,{"Content-type":"text/html;charset=UTF-8"});    
+    if(req.method == "POST"){
+      req.on('data',function(data){
+        item += data;  
+      })
+      res.end("/listmanager/",JSON.stringify(item)); 
+                            
+    }
+    res.end(data);
+  }else if(req.url == '/addget'){ 
+    if(req.method == 'GET'){
+      res.end(JSON.stringify(item));
+    }
   }else{
     fs.readFile("../."+req.url,function(err,data){
     res.end(data);            
