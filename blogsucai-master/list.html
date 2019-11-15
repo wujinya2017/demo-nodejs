@@ -218,10 +218,8 @@
     $(document).ready(function(){
         $.get("/addget",function(data){
             var dataObj = JSON.parse(data);
-            var data1 = dataObj.split("&");
-            var data2 = data1[0].split("=")[1];
-            var data3 = data1[1].split("=")[1];
-            var str = "<tr><td>109</td><td>"+data2+"</td><td>"+data3+"</td><td>213</td></tr>";
+            var data = dataObj.split("&");
+            var str = "<tr><td>109</td><td>"+data[0].split("=")[1]+"</td><td>"+data[1].split("=")[1]+"</td><td>213</td></tr>";
             $("#result").append(str);
                                                                         
       })
